@@ -20,9 +20,9 @@ mv2trash() {
             mkdir $HOME/.Trash/${file_name}_${delete_time}
             echo "Put $file_path to $HOME/.Trash"
             mv $file_path $HOME/.Trash/${file_name}_$delete_time/
-            echo "${file_path}"    > $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
-            echo "Time: $(date)"  >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
-            echo "Command: rm $*" >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+            echo "${file_path}"     > $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+            echo "Time: $(date)"   >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+            echo "Command: del $*" >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
         done
     done
 }

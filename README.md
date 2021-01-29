@@ -5,25 +5,27 @@
 ## 1. Introduction
 
 - `del $file`: Use `mv $file $HOME/.Trash` instead of `rm`.
-`del` put `$file` to `$HOME/.Trash`, and make a dir with name of `$file_deletetime`. There are two file in `$file_time`: `$file` & `${file}.log`. `${file}.log` has some infomation of $file.
+`del` put `$file` to `$HOME/.Trash`, and make a dir with name of `$file_deletetime`. There are two file in `$file_time`: `$file` & `${file}.bash_trash_log`. `${file}.bash_trash_log` has some infomation of $file.
 
 eg: 
 
 ```bash
-$ del Data\
+~$ del Data\
 Put /home/zprhhs/Data to /home/zprhhs/.Trash
-$ ls .Trash/Data_01-29_10-39-23/
-Data  Data.log
-$ cat .Trash/Data_01-29_10-39-23/Data.log
+~$ ls .Trash/Data_01-29_10-39-23/
+Data  Data.bash_trash_log
+~$ cat .Trash/Data_01-29_10-39-23/Data.bash_trash_log
 /home/zprhhs/Data
 Time: Fri Jan 29 10:39:23 CST 2021
-Command: rm Data/
+Command: del Data/
 ```
 
 - `hf`: Go to `$HOME/.Trash`
 - `hf $file_deletetime`: Restore `$file_deletetime/$file`, and remove `$file_deletetime`. If you are not in `$HOME/.Trash`, this commmad will work like `hf`.
 
-`hf $file_deletetime` read target path from `$file_deletetime/${file}.log`, and move `$file_deletetime/$file` to it, when move finished, `hf` will delete `$file_deletetime`
+`hf $file_deletetime` read target path from `$file_deletetime/${file}.bash_trash_log`, and move `$file_deletetime/$file` to it, when move finished, `hf` will delete `$file_deletetime`
+
+eg:
 
 ```bash
 ~$ hf
