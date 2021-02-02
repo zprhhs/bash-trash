@@ -8,7 +8,8 @@ mv2trash() {
     delete_time=$(date +'%m-%d_%H-%M-%S')
     for arg in "$@"; do
         for file_path in `realpath $arg`; do
-            if [[ "$file_path" == "$HOME/.Trash" ]]; then
+            trash_path="$HOME/.Trash"
+            if [[ "${file_path#$trash_path}" != "$file_path" ]]; then
                 echo "Can't Put .Trash to Itself!!"
                 continue
             fi
