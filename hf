@@ -1,0 +1,36 @@
+#!/bin/bash
+
+restore2path() {
+    if [[ "$PWD" != "$HOME/.Trash" ]]; then 
+        cd $HOME/.Trash
+        return
+    fi
+    for arg in "$@"; do
+        for command_file in `realpath $arg`; do
+            if [[ ! -d $command_file ]]; then
+                echo "No such file to restore"
+            fi
+            file_path=""
+            now_path=""
+            for file in `ls $command_file`; do
+                if [[ -f $command_file/$file && "${file##*.}" == "bash_trash_log" ]]; then
+                    for line in `cat $command_file/$file`; do
+                        file_path=$line
+                        break
+                    done
+                else
+                    now_path=$command_file/$file
+                fi
+            done
+            prefix_path=${file_path%/*}
+            if [[ ! -d $prefix_path ]]; then
+                mkdir -p $prefix_path && mv $now_path $file_path && rm $command_file -rf \
+                    && echo "Restore file $now_path to $file_path"
+                continue
+            fi
+            mv $now_path $file_path && rm $command_file -rf \
+                && echo "Restore file $now_path to $file_path"
+        done
+    done
+}
+restore2path $@

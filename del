@@ -1,0 +1,34 @@
+#!/bin/bash
+
+mv2trash() {
+    if [[ ! -d $HOME/.Trash ]]; then
+        mkdir $HOME/.Trash
+    fi
+    delete_time=$(date +'%m-%d_%H-%M-%S')
+    for arg in "$@"; do
+        for file_path in `realpath $arg`; do
+            trash_path="$HOME/.Trash"
+            if [[ "${file_path#$trash_path}" != "$file_path" ]]; then
+                echo "Can't Put .Trash to Itself!!"
+                continue
+            fi
+            file_name=${file_path##*/}
+            if [[ ! -d $file_path && ! -f $file_path ]]; then
+                echo "No Such file!"
+                continue
+            fi
+            put_path=$HOME/.Trash/${file_name}_${delete_time}
+            makemv_ok="1"
+            mkdir $put_path; mkdir_ok=$?
+            if [[ "$mkdir_ok" == "0" ]]; then mv  $file_path $put_path; makemv_ok=$?; fi
+            if [[ "$makemv_ok" == "0" ]]; then
+                echo "${file_path}"     > $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+                echo "Time: $(date)"   >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+                echo "Command: del $*" >> $HOME/.Trash/${file_name}_${delete_time}/${file_name}.bash_trash_log
+                echo "Put $file_path to $HOME/.Trash"
+            else test -d $put_path && rm $put_path -rf; fi
+        done
+    done
+}
+
+mv2trash $@
