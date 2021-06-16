@@ -29,6 +29,28 @@ mv2trash() {
             else test -d $put_path && rm $put_path -rf; fi
         done
     done
+
+    now_path=$(pwd)
+    echo $now_path
+    if [[ "$@" == "" && "$now_path" == "$HOME/.Trash" ]]; then
+        echo "clean trash bin"
+        echo "    i (interactive, default)"
+        echo "    e (exit, wrong args)"
+        echo "    a (clean all without interactive)"
+        echo -n " [i/e/a]: "; read clean_
+        echo "$clean_"
+        if [[ "$clean_" == "" || "$clean_" == "i" ]]; then
+            for per_file_path in `ls -A $HOME/.Trash/`; do
+                echo -n "rm $per_file_path?"; read conf_1
+                if [[ "$conf_1" == "y" ]]; then rm -rf $per_file_path; fi
+            done
+        elif [[ "$clean_" == "a" ]]; then
+            echo -n "rm -rf $HOME/.Trash/* ?[y]"; read conf
+            if [[ "$conf" == "y" ]]; then rm -rf $HOME/.Trash/*; fi
+        else
+            exit
+        fi
+    fi
 }
 
 mv2trash $@

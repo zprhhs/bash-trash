@@ -24,7 +24,7 @@ restore2path() {
             done
             prefix_path=${file_path%/*}
             if [[ ! -d $prefix_path ]]; then
-                mkdir -p $prefix_path && mv $now_path $file_path && rm $command_file -rf \
+                mkdir -p $prefix_path && mv -i $now_path $file_path && rm $command_file -rf \
                     && echo "Restore file $now_path to $file_path"
                 continue
             fi
