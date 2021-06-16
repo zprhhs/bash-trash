@@ -31,14 +31,12 @@ mv2trash() {
     done
 
     now_path=$(pwd)
-    echo $now_path
     if [[ "$@" == "" && "$now_path" == "$HOME/.Trash" ]]; then
         echo "clean trash bin"
         echo "    i (interactive, default)"
         echo "    e (exit, wrong args)"
         echo "    a (clean all without interactive)"
         echo -n " [i/e/a]: "; read clean_
-        echo "$clean_"
         if [[ "$clean_" == "" || "$clean_" == "i" ]]; then
             for per_file_path in `ls -A $HOME/.Trash/`; do
                 echo -n "rm $per_file_path?"; read conf_1
